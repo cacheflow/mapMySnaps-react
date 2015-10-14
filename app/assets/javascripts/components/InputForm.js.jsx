@@ -118,10 +118,21 @@ var SearchRetailers = React.createClass({
     }
     else {
      return (
-       <form className="inputForm" ref="inputForm">
-         <input type="text" ref="search" />
-           <input type="submit" value="post" onClick={this.sendForm} />
-        </form>
+       <div className="container">
+	      <div className="row">
+		      <div className="col-lg-5">
+            <h2> Search retailers who accept food stamps and wic.</h2>
+            <div className="input-group custom-search-form">
+              <input type="text" className="form-control" ref="search" />
+              <span className="input-group-btn">
+                <button className="btn btn-primary" type="button" onClick={this.sendForm}>
+                  <span className="glyphicon glyphicon-search"></span>
+                </button>
+              </span>
+            </div>
+          </div>
+	      </div>
+      </div>
      );
     }
   },
@@ -165,8 +176,7 @@ var RetailerList = React.createClass({
        if(city == retailerLowerCase) {
          return (
            <div>
-             <span> {retailer} </span>
-             <span>My index is {index}</span>
+             <span key={index}> {retailer} </span>
           </div>
         );
        }
