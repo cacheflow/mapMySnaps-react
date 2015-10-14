@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root "apis#new"
   get "apis", to: "apis#index"
   get "search", to: "apis#new"
+  get "cities", to: "api#cities"
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
