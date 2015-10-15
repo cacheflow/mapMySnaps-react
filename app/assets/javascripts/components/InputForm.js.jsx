@@ -138,8 +138,8 @@ var SearchRetailers = React.createClass({
     else {
      return (
        <div className="container">
-	      <div className="row">
-		      <div className="col-lg-5">
+        <div className="row">
+  	      <div className="col-lg-5">
             <h2> Search retailers who accept SNAP</h2>
             <div className="input-group custom-search-form">
               <input type="text" onChange={this.autoComplete}
@@ -153,7 +153,7 @@ var SearchRetailers = React.createClass({
               </span>
             </div>
           </div>
-	      </div>
+        </div>
       </div>
      );
     }
@@ -183,64 +183,63 @@ var SearchRetailers = React.createClass({
      });
      React.findDOMNode(this.refs.search).value = "";
   }
- });
+});
 
 var RetailerList = React.createClass({
-   propTypes: {
-     results: React.PropTypes.array,
-     city: React.PropTypes.string
-   },
-   render: function() {
-     var city = this.props.city;
-     var index;
-     var matchingRetailerFromQuery = this.props.results.map(function(retailer, index) {
-       var retailerLowerCase = retailer.city.toLowerCase();
-       if(city == retailerLowerCase) {
-         return (
-             <IndividualRetailer key={index}
-               retailerCity={retailer.city}
-               retailerName={retailer.retailer}
-               retailerAddress={retailer.address}
-               retailerState={retailer.state}
-               retailerZipCode={retailer.zip}>
-             </IndividualRetailer>
-         );
-       }
-     });
+ propTypes: {
+   results: React.PropTypes.array,
+   city: React.PropTypes.string
+ },
+ render: function() {
+   var city = this.props.city;
+   var index;
+   var matchingRetailerFromQuery = this.props.results.filter(function(retailer, index) {
+     return city == retailer.city.toLowerCase();
+   }).map(function(retailer) {
      return (
-       <div> {matchingRetailerFromQuery} </div>
+         <IndividualRetailer key={index}
+           retailerCity={retailer.city}
+           retailerName={retailer.retailer}
+           retailerAddress={retailer.address}
+           retailerState={retailer.state}
+           retailerZipCode={retailer.zip}>
+         </IndividualRetailer>
      );
-    }
-  });
+   });
+   return (
+     <div> {matchingRetailerFromQuery}</div>
+   );
+ }
+});
 
-  var IndividualRetailer = React.createClass({
-    propTypes: {
-      retailerCity: React.PropTypes.string,
-      retailerName: React.PropTypes.string,
-      retailerAddress: React.PropTypes.string,
-      retailerState: React.PropTypes.string,
-      retailerZipCode: React.PropTypes.string
-    },
+var IndividualRetailer = React.createClass({
+  propTypes: {
+    retailerCity: React.PropTypes.string,
+    retailerName: React.PropTypes.string,
+    retailerAddress: React.PropTypes.string,
+    retailerState: React.PropTypes.string,
+    retailerZipCode: React.PropTypes.string
+  },
 
-    render:function() {
-      return (
-        <div className="container">
-          <div className="row">
-            <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-             <div className="box">
-               <div className="info">
-                 <h4 className="text-center">Retailer</h4>
-                 <h3>{this.props.retailerName}</h3>
-                 <br></br>
-                 <p><b> Address: </b> {this.props.retailerAddress}, &nbsp;
-                   {this.props.retailerCity},
-                   {this.props.retailerState} </p>
-                 <br></br>
-               </div>
+  render:function() {
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+           <div className="box">
+             <div className="info">
+               <h4 className="text-center">Retailer</h4>
+               <h3>{this.props.retailerName}</h3>
+               <br></br>
+               <p><b> Address: </b> {this.props.retailerAddress}, &nbsp;
+                 {this.props.retailerCity},
+                 {this.props.retailerState} </p>
+               <br></br>
              </div>
            </div>
          </div>
        </div>
-     );
-    }
-  });
+     </div>
+   );
+  }
+});
