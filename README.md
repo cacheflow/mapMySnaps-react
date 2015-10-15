@@ -1,6 +1,6 @@
-![MapMySnapsReact](/public/MapMySnapsReact.png)
+![MapMySnapsReact](/public/mapMySnapsReact.png)
 
-MapMySnaps-React is a React & Rails app that is a rebuilt version of another app with the [same name](http://machikoyasuda.github.io/hackforla-live/) that [Machiko](https://github.com/machikoyasuda) and I won third place for at Hack for LA.
+MapMySnaps-React is a small React & Rails app that is a rebuilt version of another app with the [same name](http://machikoyasuda.github.io/hackforla-live/) that [Machiko](https://github.com/machikoyasuda) and I won third place for at Hack for LA.
 
 
 Steps to run it locally:
