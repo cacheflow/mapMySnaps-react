@@ -95,11 +95,11 @@ var SearchRetailers = React.createClass({
   getInitialState: function() {
     return {
       data: null,
-      city: null
+      city: null,
+      query: null
     };
   },
-  componentDidMount:function() {
-    React.findDOMNode(this.refs.search).focus();
+  autoComplete:function() {
     $(React.findDOMNode(this.refs.search)).typeahead({
       hint: true,
       highlight: true,
@@ -108,22 +108,44 @@ var SearchRetailers = React.createClass({
     {
       name: 'engine',
       source: engine
-    });
+    }).focus();
   },
   loadCorrectComponent:function() {
     if(this.state.city !== null) {
       return (
+        <div>
+          <div className="container">
+   	      <div className="row">
+   		      <div className="col-lg-5">
+               <h2> Search retailers who accept SNAP</h2>
+               <div className="input-group custom-search-form">
+                 <input type="text" onChange={this.autoComplete}
+                   className="form-control"
+                   ref="search" placeholder="Search for retailer by city"/>
+                 <span className="input-group-btn">
+                   <button className="btn btn-primary" type="button" onClick={this.sendForm}>
+                     <span className="glyphicon glyphicon-search"></span>
+                   </button>
+                 </span>
+               </div>
+             </div>
+   	      </div>
+         </div>
          <RetailerList results={this.state.data} city={this.state.city}/>
-      );
+        </div>
+       );
     }
     else {
      return (
        <div className="container">
 	      <div className="row">
 		      <div className="col-lg-5">
-            <h2> Search retailers who accept food stamps and wic.</h2>
+            <h2> Search retailers who accept SNAP</h2>
             <div className="input-group custom-search-form">
-              <input type="text" className="form-control" ref="search" />
+              <input type="text" onChange={this.autoComplete}
+                className="form-control"
+                 placeholder="Search for retailer by city"
+                ref="search"/>
               <span className="input-group-btn">
                 <button className="btn btn-primary" type="button" onClick={this.sendForm}>
                   <span className="glyphicon glyphicon-search"></span>
@@ -175,14 +197,50 @@ var RetailerList = React.createClass({
        var retailerLowerCase = retailer.city.toLowerCase();
        if(city == retailerLowerCase) {
          return (
-           <div>
-             <span key={index}> {retailer} </span>
-          </div>
-        );
+             <IndividualRetailer key={index}
+               retailerCity={retailer.city}
+               retailerName={retailer.retailer}
+               retailerAddress={retailer.address}
+               retailerState={retailer.state}
+               retailerZipCode={retailer.zip}>
+             </IndividualRetailer>
+         );
        }
      });
      return (
-       <div> {matchingRetailerFromQuery}</div>
+       <div> {matchingRetailerFromQuery} </div>
+     );
+    }
+  });
+
+  var IndividualRetailer = React.createClass({
+    propTypes: {
+      retailerCity: React.PropTypes.string,
+      retailerName: React.PropTypes.string,
+      retailerAddress: React.PropTypes.string,
+      retailerState: React.PropTypes.string,
+      retailerZipCode: React.PropTypes.string
+    },
+
+    render:function() {
+      return (
+        <div className="container">
+          <div className="row">
+            <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+             <div className="box">
+               <div className="info">
+                 <h4 className="text-center">Retailer</h4>
+                 <h3>{this.props.retailerName}</h3>
+                 <br></br>
+                 <p><b> Address: </b> {this.props.retailerAddress}, &nbsp;
+                   {this.props.retailerCity},
+                   {this.props.retailerState} </p>
+                 <br></br>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
      );
     }
   });
